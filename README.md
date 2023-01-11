@@ -24,3 +24,8 @@
 自建服务器
 服务器可以使用亚马逊(https://signin.aws.amazon.com/)的免费服务器，配置的话用来做ShadowSocks服务足矣；
 Shadowsocks服务器部署参考 https://github.com/teddysun/shadowsocks_install
+
+关于ChatGPT账号注册： 
+-------------------
+* 注册过程中需要科学上网，账号注册地址 https://openai.com/
+* 注册过程中境外手机号问题，可以使用 https://sms-activate.org/ 提供的虚拟号码接收短信。我选择的是印度号码，大概消费1元人民币左右（0.16卢布），可使用支付宝支付
