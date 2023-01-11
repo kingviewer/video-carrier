@@ -22,7 +22,7 @@
 要访问YouTube和ChatGPT的话，需要科学上网。节点最好使用付费节点，一些区域ChatGPT是不允许访问的。我使用的是韩国节点，自建ShadowSocks服务器。
 
 自建服务器
-服务器可以使用亚马逊(https://signin.aws.amazon.com/)的免费服务器，配置的话用来做ShadowSocks服务足矣；
+服务器可以使用亚马逊 https://signin.aws.amazon.com/ 的免费服务器；
 Shadowsocks服务器部署参考 https://github.com/teddysun/shadowsocks_install
 
 关于ChatGPT账号注册： 
