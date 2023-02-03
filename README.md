@@ -9,7 +9,7 @@
 
 三方库安装
 -------------------
-* pip install youtube-dl ffmpeg-python pysrt moviepy
+* pip install youtube-dl yt-dlp ffmpeg-python pysrt moviepy
 
 科大讯飞平台API https://www.xfyun.cn/
 -------------------
