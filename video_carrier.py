@@ -7,12 +7,11 @@
         ImageMagick https://imagemagick.org/
 
     三方库安装:
-    pip install youtube-dl ffmpeg-python pysrt moviepy
+    pip install yt-dlp ffmpeg-python pysrt moviepy
 """
 import requests
 import json
 
-import youtube_dl
 import ffmpeg
 
 import xf_mt
@@ -21,6 +20,8 @@ import pysrt
 from moviepy.editor import *
 from moviepy.video.tools.subtitles import SubtitlesClip
 
+from downloader.DownloaderFactory import DownloaderFactory
+
 # 科大讯飞平台的 appid
 XF_APP_ID = ''
 # 科大讯飞语音转写的 SecretKey
@@ -28,39 +29,6 @@ XF_LFASR_SECRET_KEY = ''
 # 科大讯飞机器翻译 APISecret、APIKey
 XF_MT_API_SECRET = ''
 XF_MT_API_KEY = ''
-
-
-def gen_url(video_id):
-    return 'https://www.youtube.com/watch?v=' + video_id
-
-
-def video_info(video_id, proxy=None):
-    """
-    获取YouTube上视频的信息
-    :param video_id: 视频ID
-    :param proxy: 代理服务器地址，可选
-    :return: 视频信息
-    """
-    params = {'proxy': proxy} if proxy else {}
-    return youtube_dl.YoutubeDL(params).extract_info(gen_url(video_id), download=False)
-
-
-def download_video(video_id, proxy=None):
-    """
-    下载视频到本地
-    :param video_id: Video ID
-    :param proxy: 代理服务器地址，可选
-    :return: 无
-    """
-    ydl_opts = {
-        'format': 'bestvideo+bestaudio/best',
-        'outtmpl': 'videos/%(id)s.%(ext)s'
-    }
-    if proxy:
-        ydl_opts['proxy'] = proxy
-
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([gen_url(video_id)])
 
 
 def file_name(file):
@@ -150,7 +118,7 @@ def process_video(file, **opts):
         lang
             视频语言，cn 或 en
         translate
-            要翻译成的目标语言
+            要翻译成的目标语言，可选
         ratio
             视频播放速度比率，0.5表示播放速度加倍，2表示播放速度减半，可以自行设置其他值
 
@@ -241,12 +209,11 @@ if __name__ == '__main__':
     proxy_url = 'socks5://127.0.0.1:1080/'
 
     # 从YouTube下载视频到本地
-    download_video(video_id, proxy_url)
+    downloader = DownloaderFactory.create_downloader('YouTube', video_id, proxy_url)
+    rs = downloader.download()
 
     # 视频处理
-    info = video_info(video_id, proxy_url)
-    video_file = info['id'] + '.' + info['ext']
-    result_file = process_video(video_file, lang='en', translate='cn', ratio=0.8)
+    result_file = process_video(rs['file'], lang='en', translate='cn', ratio=0.8)
 
     # 上传视频到Bilibili
     # upload_to_bilibili(result_file, '标题', '视频描述', ['标签1', '标签2'])
